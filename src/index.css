@@ -1,0 +1,126 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@theme inline {
+  --color-brand: #dc2626; /* red-600 */
+  --font-display: "Bebas Neue", sans-serif;
+  --font-mono: "DM Mono", monospace;
+  --font-sans: "Syne", sans-serif;
+}
+
+@layer base {
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    color: #f0ede8;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #dc2626;
+  }
+}
+
+@layer utilities {
+  @keyframes grid-move {
+    0% { transform: perspective(800px) rotateX(60deg) translateY(0); }
+    100% { transform: perspective(800px) rotateX(60deg) translateY(40px); }
+  }
+
+  @keyframes particle-storm {
+    0% { 
+      transform: translate(-50%, -50%) rotate(var(--start-angle)) translateY(var(--start-radius)) scale(var(--start-scale, 0.5)); 
+      opacity: 0; 
+    }
+    15% { opacity: 0.9; }
+    85% { opacity: 0.9; }
+    100% { 
+      transform: translate(-50%, -50%) rotate(var(--end-angle)) translateY(var(--end-radius)) scale(var(--end-scale, 1.3)); 
+      opacity: 0; 
+    }
+  }
+
+  @keyframes flicker {
+    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 1; }
+    20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.8; }
+  }
+
+  @keyframes ken-burns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+  }
+
+  @keyframes pulse-aura {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.45; }
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes pulse-red {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+  }
+
+  .animate-grid-move { animation: grid-move 8s linear infinite; }
+  .animate-flicker { animation: flicker 10s infinite; }
+  .animate-ken-burns { animation: ken-burns 30s linear infinite alternate; }
+  .animate-pulse-aura { animation: pulse-aura 8s infinite ease-in-out; }
+  .animate-ticker { animation: ticker 40s linear infinite; }
+  .pulse-red { animation: pulse-red 2s infinite; }
+
+  /* Scroll reveal animation */
+  .reveal-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Global scanline overlay */
+  .global-scanline {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0.01) 50%,
+      rgba(255, 255, 255, 0.01) 100%
+    );
+    background-size: 100% 4px;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
+  .scanline::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+  }
+}
